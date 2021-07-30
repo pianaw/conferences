@@ -1,0 +1,28 @@
+### GET ALL PRESENTAIONS DIVIDED BY ROOMS
+GET http://localhost:8080/api/presentations
+
+### GET USERs PRESENTATIONS
+GET http://localhost:8080/api/users/presentations
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
+Content-Type: application/json
+
+### CREATE NEW PRESENTATION
+POST http://localhost:8080/api/users/presentations
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
+Content-Type: application/json
+
+{
+  "name" : "Java Advanced"
+}
+
+### UPDATE NAME PRESENTATION (FOR PRESENTER)
+PUT http://localhost:8080/api/users/presentations/2?name=Java Core
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
+
+### UPDATE JOIN TO PRESENTATION (FOR LISTENER)
+PUT http://localhost:8080/api/users/presentations/2
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZSI6IkxJU1RFTkVSIiwibmFtZSI6IkRpbmEiLCJlbWFpbCI6ImRpbmFAZ21haWwuY29tIn0.eetgklGpmDKpWj14OdlMjU7pwACkQLkgdmZoUgzopAg
+
+###
+DELETE http://localhost:8080/api/users/presentations/3
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k

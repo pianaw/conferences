@@ -1,0 +1,54 @@
+### GET ALL USERS FOR ADMIN IS SUCCESSFUL
+GET http://localhost:8080/api/users
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBjb25mZXJlbmVzLmNvbSJ9.RraDEljShog-k4Z4-_Z_GL2uaKWdKUqrQnflNEs1h_o
+
+### GET ALL USERS FOR PRESENTER IS FORBIDDEN
+GET http://localhost:8080/api/users
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZSI6IkxJU1RFTkVSIiwibmFtZSI6IkRpYW5hIiwiZW1haWwiOiJwaWF1YXdAZ21haWwuY29tIn0.5ZLU-VRNNjuljfsL4KN9BjSoXiS3J0gihtWpw3kLi3Q
+
+### ADD NEW USER
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name" : "Diana",
+  "email" : "diane@rambler.ru",
+  "password" : "Diane"
+}
+
+### SIGN IN AS ADMIN
+POST http://localhost:8080/api/users/auth
+Content-Type: application/json
+
+{
+  "email" : "admin@conferenes.com",
+  "password" : "admin"
+}
+
+### SIGN IN AS PRESENTER
+POST http://localhost:8080/api/users/auth
+Content-Type: application/json
+
+{
+  "email" : "dana@gmail.com",
+  "password" : "Dana"
+}
+
+### SIGN IN AS LISTENER
+POST http://localhost:8080/api/users/auth
+Content-Type: application/json
+
+{
+  "email" : "dina@gmail.com",
+  "password" : "Dina"
+}
+
+### UPDATE USER ROLE
+PUT http://localhost:8080/api/users/3?role=LISTENER
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBjb25mZXJlbmVzLmNvbSJ9.RraDEljShog-k4Z4-_Z_GL2uaKWdKUqrQnflNEs1h_o
+
+### DELETE USER
+DELETE http://localhost:8080/api/users/5
+X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBjb25mZXJlbmVzLmNvbSJ9.RraDEljShog-k4Z4-_Z_GL2uaKWdKUqrQnflNEs1h_o
+
+
