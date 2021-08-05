@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.waveaccess.conferences.dto.*;
 import org.waveaccess.conferences.errors.exceptions.BadRequestException;
 import org.waveaccess.conferences.models.Presentation;
+import org.waveaccess.conferences.models.PresentationParticipants;
 import org.waveaccess.conferences.models.Schedule;
 import org.waveaccess.conferences.models.User;
 import org.waveaccess.conferences.repositories.PresentationRepository;
@@ -75,9 +76,9 @@ public class PresentationServiceImpl implements PresentationService {
     @Override
     public void create(SimplePresentationDto presentationDto) {
         Long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getDetails()).getId();
-        Set<User> presenters = new HashSet<>();
-        presenters.add(User.builder()
-                .id(userId)
+        Set<PresentationParticipants> presenters = new HashSet<>();
+        presenters.add(PresentationParticipants.builder()
+                .user(User.builder().id(userId).build())
                 .build());
 
         presentationRepository.save(Presentation.builder()
@@ -95,10 +96,13 @@ public class PresentationServiceImpl implements PresentationService {
         if (userDetails.getAuthorities().toArray()[0].toString().equals("LISTENER")) {
             presentation = presentationRepository.findById(presentationDto.id).orElseThrow(() -> new BadRequestException("Presentation not found"));
 
-            if (presentation.participants.stream().anyMatch(x -> x.id.intValue() == userDetails.getId())) {
+            if (presentation.participants.stream().anyMatch(x -> x.user.id.intValue() == userDetails.getId())) {
                 throw new BadRequestException("User is already listener of this conference");
             }
-            presentation.participants.add(User.builder().id(userDetails.getId()).build());
+
+            presentation.participants.add(PresentationParticipants.builder()
+                    .user(User.builder().id(userDetails.getId()).build())
+                    .build());
 
         } else {
             presentation = presentationRepository.findByIdAndUserId(presentationDto.id, userDetails.getId()).orElseThrow(() -> new BadRequestException("Presentation is not found"));
@@ -109,6 +113,7 @@ public class PresentationServiceImpl implements PresentationService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long presentationId) {
         presentationRepository.deleteById(presentationId);
 

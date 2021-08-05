@@ -28,8 +28,8 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     public Role role;
 
-    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    public Set<Presentation> presentations;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    public Set<PresentationParticipants> presentations;
 
     public enum Role {
         ADMIN, PRESENTER, LISTENER

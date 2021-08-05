@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.waveaccess.conferences.dto.*;
 import org.waveaccess.conferences.errors.exceptions.BadRequestException;
 import org.waveaccess.conferences.errors.exceptions.NoAuthoritiesException;
-import org.waveaccess.conferences.models.Presentation;
-import org.waveaccess.conferences.models.Room;
-import org.waveaccess.conferences.models.Schedule;
-import org.waveaccess.conferences.models.User;
+import org.waveaccess.conferences.models.*;
 import org.waveaccess.conferences.repositories.PresentationRepository;
 import org.waveaccess.conferences.repositories.ScheduleRepository;
 import org.waveaccess.conferences.security.details.UserDetailsImpl;
@@ -31,12 +28,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void create(FullScheduleDto scheduleDto) throws NoAuthoritiesException {
-        Long userId = ((UserDetailsImpl)SecurityContextHolder.getContext().getAuthentication().getDetails()).getId();
-        Set<User> presenters = new HashSet<>();
-        presenters.add(User.builder()
-                .id(userId)
-                .build());
-
         if (isTimeTaken(scheduleDto)) {
             throw new BadRequestException("This time is already taken");
         }
@@ -51,7 +42,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                             .build())
                     .presentation(Presentation.builder()
                             .id(scheduleDto.simplePresentationDto.id)
-                            .participants(presenters)
                             .build())
                     .build());
         }

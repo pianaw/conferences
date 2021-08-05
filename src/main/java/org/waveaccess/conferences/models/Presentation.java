@@ -14,17 +14,16 @@ import java.util.Set;
 public class Presentation {
 
     @Id
+    @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     public String name;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "presentation_user",
-            joinColumns = {@JoinColumn(name = "presentation_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName="id")})
-    public Set<User> participants;
+    @OneToMany(mappedBy = "presentation", cascade = {CascadeType.DETACH}, orphanRemoval = true)
+    public Set<PresentationParticipants> participants;
 
-    @OneToMany(mappedBy = "presentation", cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @OneToMany(mappedBy = "presentation", cascade = {CascadeType.DETACH}, orphanRemoval = true)
     public Set<Schedule> schedules;
 }
+

@@ -1,6 +1,7 @@
 package org.waveaccess.conferences.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.waveaccess.conferences.models.Presentation;
 
@@ -13,5 +14,9 @@ public interface PresentationRepository extends JpaRepository<Presentation, Long
 
     @Query(value = "FROM Presentation pres LEFT JOIN FETCH pres.participants part WHERE part.id = :userId AND pres.id = :id")
     Optional<Presentation> findByIdAndUserId(Long id, Long userId);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM presentation WHERE presentation.id = :id")
+    void deleteById(Long id);
 
 }
