@@ -13,12 +13,14 @@ X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBS
 }
 
 ### UPDATE SCHEDULE
-PUT http://localhost:8080/api/users/presentations/1/schedule/4
+PUT http://localhost:8080/api/users/presentations/2/schedule/1
 X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
 Content-Type:application/json
 
 {
-  "date" : "2021-07-29"
+  "date": "2021-07-31",
+  "start": "13:00:00",
+  "end": "15:20:00"
 }
 
 ### DELETE SCHEDULE

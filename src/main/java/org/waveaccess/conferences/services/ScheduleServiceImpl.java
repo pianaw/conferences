@@ -76,12 +76,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         FullScheduleDto checkingSchedule = FullScheduleDto.builder()
-                .id(schedule.id)
+                .id(scheduleDto.id)
                 .start(schedule.start.toString())
                 .end(schedule.end.toString())
-                .date(scheduleDto.date)
+                .date(schedule.date.toString())
                 .simpleRoomDto(SimpleRoomDto.builder()
-                        .id(scheduleDto.id)
+                        .id(schedule.room.id)
                         .build())
                 .build();
 
@@ -99,12 +99,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     private Boolean isTimeTaken(FullScheduleDto scheduleDto) {
-        List<Schedule> schedules =  scheduleRepository.findByDateTimeAndRoom(Date.valueOf(
-                scheduleDto.date),
-                Time.valueOf(scheduleDto.start),
-                Time.valueOf(scheduleDto.end),
-                scheduleDto.simpleRoomDto.id);
+        List<Schedule> schedules =  scheduleRepository.findByDateTimeAndRoom(Date.valueOf(scheduleDto.date), Time.valueOf(scheduleDto.start), Time.valueOf(scheduleDto.end), scheduleDto.simpleRoomDto.id);
+        if (schedules.size() == 1 && !schedules.get(0).id.equals(scheduleDto.id)) {
+            return true;
+        }
+        else return schedules.size() >= 2 && (!schedules.get(0).id.equals(scheduleDto.id) || !schedules.get(1).id.equals(scheduleDto.id));
 
-        return schedules.isEmpty() || !schedules.get(0).id.equals(scheduleDto.id);
     }
 }
