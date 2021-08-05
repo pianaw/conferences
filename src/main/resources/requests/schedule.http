@@ -1,5 +1,5 @@
 ### CREATE NEW SCHEDULE FOR PRESENTATION
-POST http://localhost:8080/api/presentations/1/schedule
+POST http://localhost:8080/api/users/presentations/1/schedule
 Content-Type: application/json
 X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
 
@@ -13,12 +13,12 @@ X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBS
 }
 
 ### UPDATE SCHEDULE
-PUT http://localhost:8080/api/users/presentations/1/shedule/1
+PUT http://localhost:8080/api/users/presentations/1/schedule/4
 X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IlBSRVNFTlRFUiIsIm5hbWUiOiJEYW5hIiwiZW1haWwiOiJkYW5hQGdtYWlsLmNvbSJ9.jX6lzqHt1OYN18Q-KB_Gk3CZ0GisbtNpPB_UxzB5c8k
 Content-Type:application/json
 
 {
-  "start": "17:30:00"
+  "date" : "2021-07-29"
 }
 
 ### DELETE SCHEDULE

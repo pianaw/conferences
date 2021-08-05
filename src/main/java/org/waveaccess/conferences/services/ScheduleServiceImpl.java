@@ -37,14 +37,9 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .id(userId)
                 .build());
 
-        if (scheduleRepository.findByDateTimeAndRoom(Date.valueOf(scheduleDto.date),
-                Time.valueOf(scheduleDto.start),
-                Time.valueOf(scheduleDto.end),
-                scheduleDto.getSimpleRoomDto().id).isPresent()) {
-            throw new BadRequestException("This time is taken");
-        } //TODO TRIGGER
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (isTimeTaken(scheduleDto)) {
+            throw new BadRequestException("This time is already taken");
+        }
 
         try {
             Schedule schedule = scheduleRepository.save(Schedule.builder()
@@ -68,15 +63,30 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void updateById(SimpleScheduleDto scheduleDto) throws NoAuthoritiesException {
-        Schedule schedule = scheduleRepository.findScheduleByIdAndPresentation_Id(scheduleDto.presentationId, scheduleDto.id).orElseThrow(() -> new BadRequestException("Schedule is not found"));
-        schedule.date = Date.valueOf(scheduleDto.date);
-        schedule.start = Time.valueOf(scheduleDto.start);
-        schedule.end = Time.valueOf(scheduleDto.end);
+        Schedule schedule = scheduleRepository.findScheduleByIdAndPresentation_Id(scheduleDto.id, scheduleDto.presentationId).orElseThrow(() -> new BadRequestException("Schedule is not found"));
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (scheduleDto.date != null) {
+            schedule.date = Date.valueOf(scheduleDto.date);
+        }
+        if (scheduleDto.start != null) {
+            schedule.start = Time.valueOf(scheduleDto.start);
+        }
+        if (scheduleDto.end != null) {
+            schedule.end = Time.valueOf(scheduleDto.end);
+        }
 
-        if (!scheduleRepository.findByDateTimeAndRoom(schedule.date, schedule.start, schedule.end, schedule.room.id).isPresent()) {
-            throw new BadRequestException("This time and room are already taken");
+        FullScheduleDto checkingSchedule = FullScheduleDto.builder()
+                .id(schedule.id)
+                .start(schedule.start.toString())
+                .end(schedule.end.toString())
+                .date(scheduleDto.date)
+                .simpleRoomDto(SimpleRoomDto.builder()
+                        .id(scheduleDto.id)
+                        .build())
+                .build();
+
+        if (isTimeTaken(checkingSchedule)) {
+            throw new BadRequestException("This time is already taken");
         }
 
         scheduleRepository.save(schedule);
@@ -86,5 +96,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public void deleteById(Long presentationId) throws NoAuthoritiesException {
         scheduleRepository.deleteByPresentationId(presentationId);
+    }
+
+    private Boolean isTimeTaken(FullScheduleDto scheduleDto) {
+        List<Schedule> schedules =  scheduleRepository.findByDateTimeAndRoom(Date.valueOf(
+                scheduleDto.date),
+                Time.valueOf(scheduleDto.start),
+                Time.valueOf(scheduleDto.end),
+                scheduleDto.simpleRoomDto.id);
+
+        return schedules.isEmpty() || !schedules.get(0).id.equals(scheduleDto.id);
     }
 }

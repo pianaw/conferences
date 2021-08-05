@@ -29,8 +29,9 @@ public class UsersScheduleController {
 
     @PutMapping("/{scheduleId}")
     @PreAuthorize("hasAuthority('PRESENTER') && hasPermission(#presentationId, 'Long.class')")
-    public ResponseEntity<Void> update(@PathVariable Long presentationId, @PathVariable Long scheduleId, @RequestBody SimpleScheduleDto scheduleDto) throws Exception, NoAuthoritiesException {
+    public ResponseEntity<Void> update(@PathVariable Long presentationId, @PathVariable Long scheduleId, @RequestBody SimpleScheduleDto scheduleDto) throws Exception {
         scheduleDto.id = scheduleId;
+        scheduleDto.presentationId = presentationId;
         scheduleService.updateById(scheduleDto);
         return ResponseEntity.ok().build();
     }
