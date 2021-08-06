@@ -9,6 +9,7 @@ import org.waveaccess.conferences.models.Presentation;
 import org.waveaccess.conferences.models.PresentationParticipants;
 import org.waveaccess.conferences.models.Schedule;
 import org.waveaccess.conferences.models.User;
+import org.waveaccess.conferences.repositories.PresentationParticipantsRepository;
 import org.waveaccess.conferences.repositories.PresentationRepository;
 import org.waveaccess.conferences.repositories.ScheduleRepository;
 import org.waveaccess.conferences.security.details.UserDetailsImpl;
@@ -25,6 +26,9 @@ public class PresentationServiceImpl implements PresentationService {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+
+    @Autowired
+    private PresentationParticipantsRepository participantsRepository;
 
     @Override
     public List<FullRoomDto> getAllByRooms() {
@@ -115,8 +119,8 @@ public class PresentationServiceImpl implements PresentationService {
     @Override
     @Transactional
     public void deleteById(Long presentationId) {
+        participantsRepository.deleteByPresentationId(presentationId);
+        scheduleRepository.deleteByPresentationId(presentationId); //CAN BE ALSO REPLACED WITH SOFT DELETE
         presentationRepository.deleteById(presentationId);
-
-        //TODO org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException
     }
 }

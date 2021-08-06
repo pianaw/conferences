@@ -10,8 +10,10 @@ import org.waveaccess.conferences.dto.UserDto;
 import org.waveaccess.conferences.dto.UserFormDto;
 import org.waveaccess.conferences.errors.exceptions.BadRequestException;
 import org.waveaccess.conferences.models.User;
+import org.waveaccess.conferences.repositories.PresentationParticipantsRepository;
 import org.waveaccess.conferences.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public PresentationParticipantsRepository participantsRepository;
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -51,9 +56,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void updateUserById(UserForUpdateDto userDto) {
         User user = userRepository.findById(userDto.id).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
-        user.name = user.name;
+        user.name = userDto.name;
         try {
             user.role = User.Role.valueOf(userDto.role);
         }
@@ -64,8 +70,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteUserById(Long id) {
         try {
+            participantsRepository.deleteByUserId(id); //CAN BE ALSO REPLACED WITH SOFT DELETE
             userRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {

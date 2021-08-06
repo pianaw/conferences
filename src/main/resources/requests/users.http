@@ -48,7 +48,7 @@ PUT http://localhost:8080/api/users/3?role=LISTENER
 X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBjb25mZXJlbmVzLmNvbSJ9.RraDEljShog-k4Z4-_Z_GL2uaKWdKUqrQnflNEs1h_o
 
 ### DELETE USER
-DELETE http://localhost:8080/api/users/5
+DELETE http://localhost:8080/api/users/3
 X-access-token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFETUlOIiwibmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBjb25mZXJlbmVzLmNvbSJ9.RraDEljShog-k4Z4-_Z_GL2uaKWdKUqrQnflNEs1h_o
 
 
